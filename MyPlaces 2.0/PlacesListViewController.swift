@@ -22,6 +22,8 @@ class PlacesListViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    
 
     // MARK: - Table view data source
 
@@ -91,5 +93,5 @@ class PlacesListViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func cancelAction(_ segue:UIStoryboardSegue){}
 }
