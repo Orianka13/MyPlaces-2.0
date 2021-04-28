@@ -12,6 +12,7 @@ class NewPlaceViewController: UITableViewController {
     @IBOutlet weak var newName: UITextField!
     @IBOutlet weak var newLocation: UITextField!
     @IBOutlet weak var newType: UITextField!
+    @IBOutlet weak var imageView: UIImageView!
     
 
     override func viewDidLoad() {
@@ -73,13 +74,22 @@ extension NewPlaceViewController: UITextFieldDelegate {
 }
 
 //Работа с изображением
-extension NewPlaceViewController {
-    func chooseImagePicker(source: UIImagePickerController.SourceType){
+extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+   func chooseImagePicker(source: UIImagePickerController.SourceType){
         if UIImagePickerController.isSourceTypeAvailable(source){
             let imagePicker = UIImagePickerController()
             imagePicker.allowsEditing = true
             imagePicker.sourceType = source
             present(imagePicker, animated: true)
+            imagePicker.delegate = self
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imageView.image = info[.editedImage] as? UIImage
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        dismiss(animated: true)
     }
 }
