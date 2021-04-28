@@ -9,12 +9,9 @@ import UIKit
 
 class PlacesListViewController: UITableViewController {
     
-    var restaurantNames = [
-        "Burger Heroes", "Kitchen", "Bonsai", "Дастархан",
-        "Индокитай", "X.O", "Балкан Гриль", "Sherlock Holmes",
-        "Speak Easy", "Morris Pub", "Вкусные истории",
-        "Классик", "Love&Life", "Шок", "Бочка"
-    ]
+
+    
+    var places = Place.getPlaces()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,16 +27,18 @@ class PlacesListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return restaurantNames.count
+        return places.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
 
-        cell.placeName?.text = restaurantNames[indexPath.row]
+        cell.placeName?.text = places[indexPath.row].name
+        cell.placeLocation.text = places[indexPath.row].location
+        cell.placeType.text = places[indexPath.row].type
         
-        cell.placeImage?.image = UIImage(named: restaurantNames[indexPath.row])
+        cell.placeImage?.image = UIImage(named: places[indexPath.row].image)
         cell.placeImage?.layer.cornerRadius = cell.placeImage.frame.size.height / 2
         cell.placeImage?.clipsToBounds = true
 
@@ -47,10 +46,6 @@ class PlacesListViewController: UITableViewController {
     }
     
     //MARK: TableView Delegate
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
-    }
 
     /*
     // Override to support conditional editing of the table view.

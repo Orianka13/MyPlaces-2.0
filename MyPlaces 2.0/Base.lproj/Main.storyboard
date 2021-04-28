@@ -50,11 +50,11 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="xfT-TF-fvU" firstAttribute="top" secondItem="jd7-dP-QjO" secondAttribute="top" constant="10" id="Aqt-JI-Qrq"/>
                                         <constraint firstItem="pzx-9d-Oku" firstAttribute="leading" secondItem="xfT-TF-fvU" secondAttribute="trailing" constant="15" id="Bz4-UR-ajw"/>
                                         <constraint firstItem="W73-8g-J4i" firstAttribute="leading" secondItem="xfT-TF-fvU" secondAttribute="trailing" constant="15" id="NRm-m9-4K1"/>
                                         <constraint firstAttribute="trailing" secondItem="miP-6q-fBg" secondAttribute="trailing" constant="55" id="PTs-pF-COi"/>
                                         <constraint firstItem="xfT-TF-fvU" firstAttribute="leading" secondItem="jd7-dP-QjO" secondAttribute="leading" constant="15" id="QjZ-gY-iAk"/>
+                                        <constraint firstItem="xfT-TF-fvU" firstAttribute="centerY" secondItem="jd7-dP-QjO" secondAttribute="centerY" id="Z51-SV-rUC"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="pzx-9d-Oku" secondAttribute="trailing" constant="35" id="b00-TJ-BK8"/>
                                         <constraint firstItem="W73-8g-J4i" firstAttribute="top" secondItem="jd7-dP-QjO" secondAttribute="top" constant="9" id="jm3-HZ-VZP"/>
                                         <constraint firstItem="miP-6q-fBg" firstAttribute="leading" secondItem="xfT-TF-fvU" secondAttribute="trailing" constant="15" id="kY0-zy-aA8"/>
