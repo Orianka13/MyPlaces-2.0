@@ -9,10 +9,14 @@ import UIKit
 
 class NewPlaceViewController: UITableViewController {
     
+    var newPlace: Place?
+    var imageIsChanged = false
+    
     @IBOutlet weak var newName: UITextField!
     @IBOutlet weak var newLocation: UITextField!
     @IBOutlet weak var newType: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
 
     override func viewDidLoad() {
@@ -21,9 +25,11 @@ class NewPlaceViewController: UITableViewController {
         //уберем разлиновку пустых строк
         tableView.tableFooterView = UIView()
 
-        
+        //отключаем кнопку Save
+        saveButton.isEnabled = false
+        newName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
     }
-
+    
 
     /*
     // MARK: - Navigation
@@ -56,7 +62,6 @@ class NewPlaceViewController: UITableViewController {
             photo.setValue(photoIcon, forKey: "image")
             photo.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             
-            
             let cancel = UIAlertAction(title: "Cancel", style: .cancel)
             //добавлЯем все пользовательские действия в алерт контроллер
             actionSheet.addAction(camera)
@@ -70,8 +75,29 @@ class NewPlaceViewController: UITableViewController {
         }
     }
     
+    //Сохраним значения полей в свойства модели
+    func saveNewPlace() {
+        
+        var image: UIImage?
+        
+        if imageIsChanged {
+            image = imageView.image
+        } else {
+            image = #imageLiteral(resourceName: "imagePlaceholder")
+        }
+        
+        newPlace = Place(name: newName.text!,
+                         location: newLocation.text,
+                         type: newType.text,
+                         image: image,
+                         restaurantImage: nil
+                         )
+    }
     
-
+    @IBAction func cancelAction(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+    
 }
 
 // Скрываем клаву по Done
@@ -79,6 +105,13 @@ extension NewPlaceViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    @objc private func textFieldChanged() {
+        if newName.text?.isEmpty == false {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
+        }
     }
 }
 
@@ -99,6 +132,7 @@ extension NewPlaceViewController: UIImagePickerControllerDelegate, UINavigationC
         imageView.image = info[.editedImage] as? UIImage
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageIsChanged = true
         dismiss(animated: true)
     }
 }

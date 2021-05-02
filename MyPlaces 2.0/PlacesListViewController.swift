@@ -8,19 +8,12 @@
 import UIKit
 
 class PlacesListViewController: UITableViewController {
-    
-
-    
+        
     var places = Place.getPlaces()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     
@@ -35,12 +28,19 @@ class PlacesListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
-
-        cell.placeName?.text = places[indexPath.row].name
-        cell.placeLocation.text = places[indexPath.row].location
-        cell.placeType.text = places[indexPath.row].type
         
-        cell.placeImage?.image = UIImage(named: places[indexPath.row].image)
+        let place = places[indexPath.row]
+
+        cell.placeName?.text = place.name
+        cell.placeLocation.text = place.location
+        cell.placeType.text = place.type
+        
+        if place.image == nil {
+            cell.placeImage?.image = UIImage(named: place.restaurantImage!)
+        } else {
+            cell.placeImage.image = place.image
+        }
+        
         cell.placeImage?.layer.cornerRadius = cell.placeImage.frame.size.height / 2
         cell.placeImage?.clipsToBounds = true
 
@@ -93,5 +93,10 @@ class PlacesListViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    @IBAction func cancelAction(_ segue:UIStoryboardSegue){}
+    @IBAction func unwindSegue(_ segue:UIStoryboardSegue){
+        guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
+        newPlaceVC.saveNewPlace()
+        places.append(newPlaceVC.newPlace!)
+        tableView.reloadData()
+    }
 }
