@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 class PlacesListViewController: UITableViewController {
         
-    var places = Place.getPlaces()
+    var places: Results<Place>!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        places = realm.objects(Place.self)
 
     }
     
@@ -22,25 +25,20 @@ class PlacesListViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return places.count
+        return places.isEmpty ? 0 : places.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
-        
+
         let place = places[indexPath.row]
 
         cell.placeName?.text = place.name
         cell.placeLocation.text = place.location
         cell.placeType.text = place.type
-        
-        if place.image == nil {
-            cell.placeImage?.image = UIImage(named: place.restaurantImage!)
-        } else {
-            cell.placeImage.image = place.image
-        }
-        
+        cell.placeImage.image = UIImage(data: place.imageData!)
+
         cell.placeImage?.layer.cornerRadius = cell.placeImage.frame.size.height / 2
         cell.placeImage?.clipsToBounds = true
 
@@ -96,7 +94,6 @@ class PlacesListViewController: UITableViewController {
     @IBAction func unwindSegue(_ segue:UIStoryboardSegue){
         guard let newPlaceVC = segue.source as? NewPlaceViewController else { return }
         newPlaceVC.saveNewPlace()
-        places.append(newPlaceVC.newPlace!)
         tableView.reloadData()
     }
 }

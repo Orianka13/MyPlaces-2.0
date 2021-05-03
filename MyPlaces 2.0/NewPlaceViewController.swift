@@ -6,10 +6,10 @@
 //
 
 import UIKit
+import RealmSwift
 
 class NewPlaceViewController: UITableViewController {
     
-    var newPlace: Place?
     var imageIsChanged = false
     
     @IBOutlet weak var newName: UITextField!
@@ -28,6 +28,7 @@ class NewPlaceViewController: UITableViewController {
         //отключаем кнопку Save
         saveButton.isEnabled = false
         newName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        
     }
     
 
@@ -86,12 +87,14 @@ class NewPlaceViewController: UITableViewController {
             image = #imageLiteral(resourceName: "imagePlaceholder")
         }
         
-        newPlace = Place(name: newName.text!,
-                         location: newLocation.text,
-                         type: newType.text,
-                         image: image,
-                         restaurantImage: nil
-                         )
+        let imageData = image?.pngData()
+        
+        let newPlace = Place(name: newName.text!,
+                             location: newLocation.text,
+                             type: newType.text,
+                             imageData: imageData)
+        StorageManager.saveObject(newPlace)
+        
     }
     
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {
