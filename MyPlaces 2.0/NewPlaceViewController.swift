@@ -10,6 +10,7 @@ import RealmSwift
 
 class NewPlaceViewController: UITableViewController {
     
+    var currentPlace: Place?
     var imageIsChanged = false
     
     @IBOutlet weak var newName: UITextField!
@@ -28,6 +29,7 @@ class NewPlaceViewController: UITableViewController {
         //отключаем кнопку Save
         saveButton.isEnabled = false
         newName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
+        setupEditScreen()
         
     }
     
@@ -77,7 +79,7 @@ class NewPlaceViewController: UITableViewController {
     }
     
     //Сохраним значения полей в свойства модели
-    func saveNewPlace() {
+    func savePlace() {
         
         var image: UIImage?
         
@@ -93,8 +95,45 @@ class NewPlaceViewController: UITableViewController {
                              location: newLocation.text,
                              type: newType.text,
                              imageData: imageData)
-        StorageManager.saveObject(newPlace)
         
+        
+        if currentPlace != nil {
+            try! realm.write {
+                currentPlace?.name = newPlace.name
+                currentPlace?.location = newPlace.location
+                currentPlace?.type = newPlace.type
+                currentPlace?.imageData = newPlace.imageData
+            }
+        } else {
+            StorageManager.saveObject(newPlace)
+        }
+    }
+    
+    //передадим значение currentPlace в аутлеты
+    private func setupEditScreen(){
+        if currentPlace != nil {
+            setupNavigationBar()
+            imageIsChanged = true
+            guard let data = currentPlace?.imageData, let image = UIImage(data: data) else { return }
+            imageView.image = image
+            imageView.contentMode = .scaleAspectFill
+            
+            newName.text = currentPlace?.name
+            newLocation.text = currentPlace?.location
+            newType.text = currentPlace?.type
+        }
+    }
+    
+    //изменяем NavigationBar чтобы он отображал название редактируемого заведения
+    private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = nil
+        title = currentPlace?.name
+        saveButton.isEnabled = true
+        
+        if let topItem = navigationController?.navigationBar.topItem {
+            topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        }
+       
     }
     
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {

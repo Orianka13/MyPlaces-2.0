@@ -68,6 +68,7 @@
                                     <outlet property="placeLocation" destination="pzx-9d-Oku" id="Mjp-f6-z9B"/>
                                     <outlet property="placeName" destination="W73-8g-J4i" id="2mv-gk-ETU"/>
                                     <outlet property="placeType" destination="miP-6q-fBg" id="wrG-3w-NYg"/>
+                                    <segue destination="jH2-c0-69O" kind="show" identifier="showDetail" id="z86-rZ-LFD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -93,7 +94,7 @@
             <objects>
                 <tableViewController id="jH2-c0-69O" customClass="NewPlaceViewController" customModule="MyPlaces_2_0" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Gp8-Ml-ssm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <inset key="separatorInset" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
@@ -310,6 +311,9 @@
             <point key="canvasLocation" x="1620.289855072464" y="112.5"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="z86-rZ-LFD"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Photo" width="195" height="196"/>
         <systemColor name="systemBackgroundColor">
